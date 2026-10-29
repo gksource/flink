@@ -164,7 +164,7 @@ function install_brew() {
     hash "brew" 2>/dev/null
     if [ $? -ne 0 ]; then
         print_function "STEP" "install brew..."
-        $((/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)") 2>&1 >/dev/null)
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" >/dev/null 2>&1
         if [ $? -ne 0 ]; then
             echo "Failed to install brew"
             exit 1

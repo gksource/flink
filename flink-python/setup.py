@@ -174,7 +174,8 @@ this_directory = os.path.abspath(os.path.dirname(__file__))
 version_file = os.path.join(this_directory, 'pyflink/version.py')
 
 try:
-    exec(open(version_file).read())
+    with open(version_file) as version_f:
+        exec(version_f.read())
 except IOError:
     print("Failed to load PyFlink version file for packaging. " +
           "'%s' not found!" % version_file,
