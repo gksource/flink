@@ -21,6 +21,7 @@ import glob
 import io
 import os
 import platform
+import re
 import subprocess
 import sys
 from shutil import copytree, copy, rmtree
@@ -61,13 +62,18 @@ else:
     version_file = os.path.join(this_directory, 'pyflink/version.py')
 
 try:
-    exec(open(version_file).read())
+    with io.open(version_file, 'r', encoding='utf-8') as version_f:
+        version_match = re.search(r'^__version__\s*=\s*([\'"])([^\'"]+)\1\s*$',
+                                  version_f.read(), re.MULTILINE)
 except IOError:
     print("Failed to load PyFlink version file for packaging. " +
           "'%s' not found!" % version_file,
           file=sys.stderr)
     sys.exit(-1)
-VERSION = __version__  # noqa
+if version_match is None:
+    print("Failed to parse the version from '%s'!" % version_file, file=sys.stderr)
+    sys.exit(-1)
+VERSION = version_match.group(2)
 
 with io.open(os.path.join(this_directory, 'README.md'), 'r', encoding='utf-8') as f:
     long_description = f.read()
