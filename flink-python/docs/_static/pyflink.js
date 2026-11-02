@@ -105,7 +105,7 @@ $(function () {
                     divNoteMap.deprecated.addClass('pys-note pys-note-deprecated');
                 }
                 var li = $('<li/>');
-                var a = $('<a href="#' + name + '">' + descName + '</a>');
+                var a = $('<a/>').attr('href', '#' + name).text(descName);
                 li.append(a);
                 li.append(tags);
                 moduleLink[1].append(li);
